@@ -9,8 +9,16 @@ jobs:
       - setup_remote_docker
 
       - run:
+          name: Debug location
+          command: |
+            pwd
+            ls -la
+            ls -la Dockerfile
+
+      - run:
           name: Build and push Docker image
           command: |
+            cd ~/project
             docker --version
             docker build -t karenht/sample-express-app:1.0.0 .
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
