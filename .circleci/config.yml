@@ -11,7 +11,12 @@ jobs:
     docker:
       # Specify the version you desire here
       # See: https://circleci.com/developer/images/image/cimg/base
-      - image: cimg/base:current
+      - image: cimg/node:19.8.1
+
+    # Environment
+    environment:
+      MY_VAR: "sample-value"
+      SAMPLE_VAR: "another-value"
 
     # Add steps to the job
     # See: https://circleci.com/docs/guides/orchestrate/jobs-steps/#steps-overview & https://circleci.com/docs/reference/configuration-reference/#steps
@@ -21,6 +26,9 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+      - run: echo $MY_VAR
+      - run: node --version
+      - run: npm install
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/guides/orchestrate/workflows/ & https://circleci.com/docs/reference/configuration-reference/#workflows
