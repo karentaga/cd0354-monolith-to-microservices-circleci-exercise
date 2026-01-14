@@ -3,23 +3,29 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base:current
+      - image: cimg/node:20.0  # CircleCI Node.js container
     working_directory: ~/project
 
     steps:
+      # 1. Checkout your repo
       - checkout
+
+      # 2. Debug: list files in repo root to confirm Dockerfile exists
+      - run:
+          name: Verify files
+          command: ls -la
+
+      # 3. Setup Docker engine if needed
       - setup_remote_docker
 
+      # 4. Build Docker image
       - run:
-          name: Verify Dockerfile
+          name: Build Docker image
           command: |
-            pwd
-            ls -la
-            ls -la Dockerfile
+            docker build -t myapp .
 
+      # 5. Optional: run container to test
       - run:
-          name: Build and push Docker image
+          name: Test container
           command: |
-            docker build -t karenht/sample-express-app:1.0.0 .
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push karenht/sample-express-app:1.0.0
+            docker run --rm myapp node -v
