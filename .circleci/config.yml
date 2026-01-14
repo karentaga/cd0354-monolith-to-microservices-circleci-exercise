@@ -14,6 +14,6 @@ jobs:
           name: Build and push Docker image
           command: |
             docker --version
-            docker build -t karenht/simple-node:latest .
+            docker build -t karenht/sample-express-app ./Dockerfile
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push karenht/simple-node:latest
+            docker push karenht/sample-express-app
