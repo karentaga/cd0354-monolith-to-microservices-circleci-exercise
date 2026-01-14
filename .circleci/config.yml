@@ -7,23 +7,14 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
+
       - setup_remote_docker:
           version: 20.10.14
-      - run:
-          name: Install dependencies
-          command: echo "No need to install anything. \n Just build and push the Docker image."
+
       - run:
           name: Build and push Docker image
           command: |
-            echo "Inside the Build and push Docker image step"
             docker --version
-            docker build -t karenht/sample-express-app .
-            docker tag karenht/sample-express-app sudkul/sample-express-app:1.0.0
+            docker build -t sudkul/sample-express-app:1.0.0 .
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push karenht/sample-express-app:1.0.0
-
-workflows:
-  version: 2
-  build_and_push:
-    jobs:
-      - build
+            docker push sudkul/sample-express-app:1.0.0
