@@ -4,16 +4,14 @@ jobs:
   build:
     docker:
       - image: cimg/base:current
-    working_directory: ~/app
     steps:
       - checkout
-
       - setup_remote_docker
 
       - run:
           name: Build and push Docker image
           command: |
             docker --version
-            docker build -t karenht/sample-express-app ./Dockerfile
+            docker build -t karenht/sample-express-app:1.0.0 .
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push karenht/sample-express-app
+            docker push karenht/sample-express-app:1.0.0
