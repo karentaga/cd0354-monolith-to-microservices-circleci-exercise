@@ -4,12 +4,14 @@ jobs:
   build:
     docker:
       - image: cimg/base:current
+    working_directory: ~/project
+
     steps:
       - checkout
       - setup_remote_docker
 
       - run:
-          name: Debug location
+          name: Verify Dockerfile
           command: |
             pwd
             ls -la
@@ -18,8 +20,6 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            cd ~/project
-            docker --version
             docker build -t karenht/sample-express-app:1.0.0 .
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             docker push karenht/sample-express-app:1.0.0
